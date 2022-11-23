@@ -5,9 +5,7 @@ import {FormContainer, Form, Label, Input, Button, ToggleButton } from './AuthSt
 
 
 
-function AuthForm() {
-    const [isLogIn, setIsLogIn] = useState(true);
-    const [isLoading, setIsLoading] = useState(false);
+function SignUpForm() {
 
     const userInputEmail = useRef();
     const userInputPassword = useRef();
@@ -21,12 +19,8 @@ function AuthForm() {
 
         const  enteredEmail = userInputEmail.current.value;
         const enteredPassword = userInputPassword.current.value;
-        let url;
-        if(isLogIn){
-            url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB8PZ7dyMV1RlPAiConsdPAQszUAEsecfI';
-        }else{
-            url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB8PZ7dyMV1RlPAiConsdPAQszUAEsecfI';  
-        }
+       
+        let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB8PZ7dyMV1RlPAiConsdPAQszUAEsecfI'; 
         fetch(url,{
             method:"POST",
             body:JSON.stringify({
@@ -38,20 +32,13 @@ function AuthForm() {
                 'Content-Type' : 'application/json'
             }
         }).then((res)=>{
-            setIsLoading(false);
-            if(res.ok){
-                return res.json();
-            }else{
-                return res.json().then((data)=>{
-                    if(data && data.error && data.error.message){
-                        let errMessage = "Authentication Failed, " + data.error.message;
-                        throw new Error(errMessage);
-                    }
-                })
-            }
-        }).then((res)=>{
-            console.log(res);
-            console.log("User Sucessfully logged in")
+            return res.json().then((data)=>{
+                console.log(data);
+                if(data && data.error && data.error.message){
+                    let errMessage = "Authentication Failed, " + data.error.message;
+                    throw new Error(errMessage);
+                }
+            })
         }).catch((err)=>{
             console.log(err);
         })
@@ -61,19 +48,19 @@ function AuthForm() {
     <FormContainer>
     <Form onSubmit={handleFormSubmit}>
        <h1 style={{ textAlign: "center", color: "#2192FF" }}>
-        {isLogIn ? "Login" : "Signup"}
+        SignUp
       </h1>
         <Label htmlFor='email'>Email</Label>
         <Input type='email' id='email' ref={userInputEmail} required/>
 
         <Label typeof='password'>Password</Label>
         <Input type='password' id='password' minLength='7' ref={userInputPassword} required/>
-        {!isLoading && (<Button>{isLogIn ? 'Login' : 'Create account'}</Button>)}
+        <Button>Create account</Button>
     </Form>
-    <ToggleButton type='button' onClick={toggleButton}>{isLogIn ? 'create new account' : 'Have an account? Login'}</ToggleButton>
+    <ToggleButton type='button' onClick={toggleButton}>Have an account? Login</ToggleButton>
     </FormContainer>
 
   )
 }
 
-export default AuthForm
+export default SignUpForm

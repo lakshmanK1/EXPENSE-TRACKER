@@ -1,11 +1,11 @@
 import React from "react";
-import AuthPage from "./Components/Authentication/AuthPage";
+import SignUpPage from "./Components/Authentication/SignUpPage";
 
 
 function App() {
   return (
     <React.Fragment>
-      <AuthPage/>
+      <SignUpPage/>
     </React.Fragment>
   );
 }

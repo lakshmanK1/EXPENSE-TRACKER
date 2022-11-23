@@ -5,7 +5,7 @@ import {HiOutlineLink} from 'react-icons/hi'
 // styled components
 import { NavContainer, Span, Icon, IconDiv } from './NavStylesComponents'
 
-function AuthNav() {
+function SignUpNav() {
   return (
     <NavContainer>
       <IconDiv>
@@ -19,4 +19,4 @@ function AuthNav() {
   )
 }
 
-export default AuthNav
+export default SignUpNav
