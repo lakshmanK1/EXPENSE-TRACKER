@@ -1,4 +1,5 @@
 import React,{useState,useRef} from 'react'
+import { Link } from 'react-router-dom';
 
 // Styled components
 import {FormContainer, Form, Label, Input, Button, ToggleButton } from './AuthStyledComponents'
@@ -32,13 +33,16 @@ function SignUpForm() {
                 'Content-Type' : 'application/json'
             }
         }).then((res)=>{
-            return res.json().then((data)=>{
-                console.log(data);
-                if(data && data.error && data.error.message){
-                    let errMessage = "Authentication Failed, " + data.error.message;
-                    throw new Error(errMessage);
-                }
-            })
+            if(res.ok){
+                return res.json();
+            }else{
+                return res.json().then((data)=>{
+                    if(data && data.error && data.error.message){
+                        let errMessage = "Authentication Failed, " + data.error.message;
+                        throw new Error(errMessage);
+                    }
+                })
+            }
         }).catch((err)=>{
             console.log(err);
         })
@@ -57,7 +61,7 @@ function SignUpForm() {
         <Input type='password' id='password' minLength='7' ref={userInputPassword} required/>
         <Button>Create account</Button>
     </Form>
-    <ToggleButton type='button' onClick={toggleButton}>Have an account? Login</ToggleButton>
+    <Link to='/loginpage'><ToggleButton type='button'>Have an account? Login</ToggleButton></Link>
     </FormContainer>
 
   )

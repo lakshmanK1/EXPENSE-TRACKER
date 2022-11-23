@@ -1,32 +1,28 @@
-import React,{useState,useRef} from 'react'
+import React,{useContext, useRef} from 'react'
+import { Link } from 'react-router-dom';
+import { AuthenticationContext } from '../Store/AuthContext';
 
 // Styled components
 import {FormContainer, Form, Label, Input, Button, ToggleButton } from './AuthStyledComponents'
 
 
 
-function SignUpForm() {
-    const [isLogIn, setIsLogIn] = useState(true);
-    const [isLoading, setIsLoading] = useState(false);
+function LogInForm() {
 
     const userInputEmail = useRef();
     const userInputPassword = useRef();
 
-    const toggleButton = () => {
-        setIsLogIn((toggle)=>!toggle);
-    }
+    const AuthCntx = useContext(AuthenticationContext);
+
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
 
         const  enteredEmail = userInputEmail.current.value;
         const enteredPassword = userInputPassword.current.value;
-        let url;
-        if(isLogIn){
-            url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB8PZ7dyMV1RlPAiConsdPAQszUAEsecfI';
-        }else{
-            url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB8PZ7dyMV1RlPAiConsdPAQszUAEsecfI';  
-        }
+        
+        let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB8PZ7dyMV1RlPAiConsdPAQszUAEsecfI';
+        
         fetch(url,{
             method:"POST",
             body:JSON.stringify({
@@ -38,7 +34,7 @@ function SignUpForm() {
                 'Content-Type' : 'application/json'
             }
         }).then((res)=>{
-            setIsLoading(false);
+           
             if(res.ok){
                 return res.json();
             }else{
@@ -49,9 +45,9 @@ function SignUpForm() {
                     }
                 })
             }
-        }).then((res)=>{
-            console.log(res);
-            console.log("User Sucessfully logged in")
+        }).then((data)=>{
+            console.log(data);
+            AuthCntx.LogIn(data.idToken);
         }).catch((err)=>{
             console.log(err);
         })
@@ -61,19 +57,19 @@ function SignUpForm() {
     <FormContainer>
     <Form onSubmit={handleFormSubmit}>
        <h1 style={{ textAlign: "center", color: "#2192FF" }}>
-        {isLogIn ? "Login" : "Signup"}
+        LogIn
       </h1>
         <Label htmlFor='email'>Email</Label>
         <Input type='email' id='email' ref={userInputEmail} required/>
 
         <Label typeof='password'>Password</Label>
         <Input type='password' id='password' minLength='7' ref={userInputPassword} required/>
-        {!isLoading && (<Button>{isLogIn ? 'Login' : 'Create account'}</Button>)}
+        <Button>Login</Button>
     </Form>
-    <ToggleButton type='button' onClick={toggleButton}>{isLogIn ? 'create new account' : 'Have an account? Login'}</ToggleButton>
+    <Link to='/'><ToggleButton type='button' >new account? SignUp</ToggleButton></Link>
     </FormContainer>
 
   )
 }
 
-export default SignUpForm
+export default LogInForm
