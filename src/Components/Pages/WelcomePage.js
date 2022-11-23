@@ -1,8 +1,11 @@
 import React from 'react'
+import { Container, HeaderText } from './PageStyledComponents'
 
 function WelcomePage() {
   return (
-    <div>WelcomePage</div>
+    <Container>
+        <HeaderText>Welcome to Expense Tracker Application</HeaderText>
+    </Container>
   )
 }
 

@@ -1,5 +1,5 @@
 import React,{useContext, useRef} from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthenticationContext } from '../Store/AuthContext';
 
 // Styled components
@@ -13,6 +13,8 @@ function LogInForm() {
     const userInputPassword = useRef();
 
     const AuthCntx = useContext(AuthenticationContext);
+
+    const Navigate = useNavigate();
 
 
     const handleFormSubmit = (e) => {
@@ -48,6 +50,8 @@ function LogInForm() {
         }).then((data)=>{
             console.log(data);
             AuthCntx.LogIn(data.idToken);
+            Navigate("/welcomepage");
+
         }).catch((err)=>{
             console.log(err);
         })
