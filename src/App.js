@@ -5,6 +5,7 @@ import LogInPage from "./Components/Authentication/LogInPage";
 import { AuthenticationContext } from "./Components/Store/AuthContext";
 import WelcomePage from "./Components/Pages/WelcomePage";
 import Updatadetails from "./Components/Pages/Updatadetails";
+import ForgotPassword from "./Components/Authentication/ForgotPassword";
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route path="/loginpage" element={<LogInPage/>} exact/>
         {AuthCntx.isLoggedIn && <Route path="/welcomepage" element={<WelcomePage/>} exact/>}
         {AuthCntx.isLoggedIn && <Route path="/welcomepage/updateUserdetails" element={<Updatadetails/>} exact/>}
+        {!AuthCntx.isLoggedIn && <Route path='/resetpassword' element={<ForgotPassword/>} exact/>}
       </Routes>
     </React.Fragment>
   );

@@ -1,9 +1,9 @@
-import React,{useContext, useRef} from 'react'
+import React,{useContext, useRef, useState} from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthenticationContext } from '../Store/AuthContext';
 
 // Styled components
-import {FormContainer, Form, Label, Input, Button, ToggleButton } from './AuthStyledComponents'
+import {FormContainer, Form, Label, Input, Button, ToggleButton,ForgotButton } from './AuthStyledComponents'
 
 
 
@@ -11,6 +11,8 @@ function LogInForm() {
 
     const userInputEmail = useRef();
     const userInputPassword = useRef();
+
+    const [email, setEmail] = useState();
 
     const AuthCntx = useContext(AuthenticationContext);
 
@@ -50,6 +52,7 @@ function LogInForm() {
         }).then((data)=>{
             console.log(data);
             AuthCntx.LogIn(data.idToken);
+            setEmail(data.email);
             Navigate("/welcomepage");
 
         }).catch((err)=>{
@@ -57,6 +60,8 @@ function LogInForm() {
         })
 
     }
+
+    
   return (
     <FormContainer>
     <Form onSubmit={handleFormSubmit}>
@@ -70,6 +75,7 @@ function LogInForm() {
         <Input type='password' id='password' minLength='7' ref={userInputPassword} required/>
         <Button>Login</Button>
     </Form>
+    <Link to='/resetpassword'><ForgotButton type='button'>Forgot password?</ForgotButton></Link><br/>
     <Link to='/'><ToggleButton type='button' >new account? SignUp</ToggleButton></Link>
     </FormContainer>
 
