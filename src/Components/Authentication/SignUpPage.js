@@ -1,6 +1,6 @@
 import React from 'react'
 import SignUpForm from './SignUpForm';
-import SignUpNav from '../HeaderNavs/SignUpNav';
+import NavBar from '../HeaderNavs/NavBar';
 
 //styled
 import { Wrapper } from './AuthStyledComponents';
@@ -10,7 +10,7 @@ import { Wrapper } from './AuthStyledComponents';
 function SignUpPage() {
   return(
     <>
-    <SignUpNav/>
+    <NavBar/>
     <Wrapper>
     <SignUpForm/>
     </Wrapper>

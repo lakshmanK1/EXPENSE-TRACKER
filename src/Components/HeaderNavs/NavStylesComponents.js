@@ -10,3 +10,4 @@ cursor: pointer; margin:3rem; display:inline; text-decoration:none;`;
 export const IconDiv = styled.div`color: #2192FF; font-size:30px;
 cursor: pointer; margin:3rem; display:inline; margin-top:40px;`;
 export const Icon = styled.span``; 
+export const AuthDiv = styled.div`float:right; margin-top:47px;`;

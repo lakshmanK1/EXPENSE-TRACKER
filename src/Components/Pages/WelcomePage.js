@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
+import NavBar from '../HeaderNavs/NavBar';
 import { AuthenticationContext } from '../Store/AuthContext'
-import { Container, HeaderText, MessageDiv, Span, Text, EmailVerifyBTN } from './PageStyledComponents'
+import { Container, HeaderText, MessageDiv, Span, Text, EmailVerifyBTN, MainHead } from './PageStyledComponents'
 
 function WelcomePage() {
 
@@ -38,15 +39,17 @@ function WelcomePage() {
 
   return (
     <Container>
-        <MessageDiv>
-            <Text>your profile is Incomplete,<Link to='/welcomepage/updateUserdetails'><Span>Complete now</Span></Link></Text>
-        </MessageDiv>
-        
-
-        <HeaderText>Welcome to Expense Tracker Application</HeaderText>         
-        <EmailVerifyBTN onClick={VerifyEmailId}>Verify Email</EmailVerifyBTN>
-
+      <NavBar/>
+      
+      <MainHead>
         <hr/>
+      <MessageDiv>
+            <Text>your profile is Incomplete,<Link to='/welcomepage/updateUserdetails'><Span>Complete now</Span></Link></Text>
+      </MessageDiv>
+        <HeaderText>Welcome to Expense Tracker Application</HeaderText>  <hr/> 
+      </MainHead> 
+             
+        <EmailVerifyBTN onClick={VerifyEmailId}>Verify Email</EmailVerifyBTN>
     </Container>
   )
 }
