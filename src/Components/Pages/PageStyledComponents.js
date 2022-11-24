@@ -9,6 +9,8 @@ export const MessageDiv = styled.div`background-color:#D6E4E5; width:350px;
 border-radius:5px; padding:5px; float:right; text-align:center; margin-right:15px;`;
 export const Span = styled.span`color:blue; font-style:italic; cursor:pointer;`;
 export const Text = styled.p``;
+export const EmailVerifyBTN = styled.button`float:right; font-size:22px;color:#2192ff; border:2px solid #2192ff; 
+background-color:white; padding:10px; font-weight:600; margin-right:15px; width:180px; `;
 
 
 
