@@ -1,10 +1,17 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
+import ExpenseData from '../Expense/ExpenseData';
+import ExpenseForm from '../Expense/ExpenseForm';
+import ExpenseList from '../Expense/ExpenseList';
 import NavBar from '../HeaderNavs/NavBar';
 import { AuthenticationContext } from '../Store/AuthContext'
-import { Container, HeaderText, MessageDiv, Span, Text, EmailVerifyBTN, MainHead } from './PageStyledComponents'
+import { Container, HeaderText, MessageDiv, Span, Text, EmailVerifyBTN, MainHead, AddExpenseButton, ExpenseBTNdiv } from './PageStyledComponents'
 
 function WelcomePage() {
+
+  // related to ExpenseForm
+  const [isForm, setIsForm] = useState(false);
+  const [showList, setShowList] = useState(false);
 
   const AuthCntx = useContext(AuthenticationContext);
 
@@ -37,10 +44,17 @@ function WelcomePage() {
   })
   }
 
+  const showForm =()=>{
+    setIsForm(true);
+  }
+
+  const hideForm=()=>{
+    setIsForm(false);
+  }
+
   return (
     <Container>
       <NavBar/>
-      
       <MainHead>
         <hr/>
       <MessageDiv>
@@ -49,7 +63,15 @@ function WelcomePage() {
         <HeaderText>Welcome to Expense Tracker Application</HeaderText>  <hr/> 
       </MainHead> 
              
-        <EmailVerifyBTN onClick={VerifyEmailId}>Verify Email</EmailVerifyBTN>
+        <EmailVerifyBTN onClick={VerifyEmailId}>Verify Email</EmailVerifyBTN><br/>
+
+        {!isForm && 
+          <ExpenseBTNdiv>
+          <AddExpenseButton onClick={showForm}>ADD EXPENSE</AddExpenseButton>
+        </ExpenseBTNdiv>}
+
+        {isForm && <ExpenseData hide={hideForm}/>}
+
     </Container>
   )
 }

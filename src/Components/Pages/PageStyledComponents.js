@@ -14,6 +14,20 @@ background-color:white; padding:10px; font-weight:600; margin-right:15px; width:
 export const MainHead = styled.div`margin-top:50px;`;
 
 
+//expense related
+export const AddExpenseButton = styled.button`         
+   background-image: linear-gradient(to right, #1A2980 0%, #26D0CE  51%, #1A2980  100%);
+   margin: 10px; padding: 15px 45px; text-align: center;
+   text-transform: uppercase; transition: 0.5s; background-size: 200% auto;
+   color: white;box-shadow: 0 0 20px #eee; border-radius: 10px;
+   display: block; height:70px; cursor:pointer;
+ :hover {
+   background-position: right center; /* change the direction of the change here */
+   color: #fff;
+   text-decoration: none;
+ }
+`;
+export const ExpenseBTNdiv = styled.div`margin-left:600px;`;
 
 //UpdatedDetails page
 export const DetailsContainer = styled.div`margin: 3rem auto;
@@ -31,3 +45,5 @@ font-size:17px; border:none;cursor:pointer;`;
 export const Heading = styled.h1`float:left;`;
 export const CloseButton = styled.button`float:right; width:90px; background-color:white; color:red;
 font-size:17px; border:none;cursor:pointer; padding:5px; border:1px solid red; border-radius:6px; `;
+
+
