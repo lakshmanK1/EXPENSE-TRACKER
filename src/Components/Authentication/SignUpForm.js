@@ -11,9 +11,7 @@ function SignUpForm() {
     const userInputEmail = useRef();
     const userInputPassword = useRef();
 
-    const toggleButton = () => {
-        setIsLogIn((toggle)=>!toggle);
-    }
+
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
@@ -46,8 +44,8 @@ function SignUpForm() {
         }).catch((err)=>{
             console.log(err);
         })
-
     }
+    
   return (
     <FormContainer>
     <Form onSubmit={handleFormSubmit}>

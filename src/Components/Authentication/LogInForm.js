@@ -12,8 +12,6 @@ function LogInForm() {
     const userInputEmail = useRef();
     const userInputPassword = useRef();
 
-    const [email, setEmail] = useState();
-
     const AuthCntx = useContext(AuthenticationContext);
 
     const Navigate = useNavigate();
@@ -52,7 +50,7 @@ function LogInForm() {
         }).then((data)=>{
             console.log(data);
             AuthCntx.LogIn(data.idToken);
-            setEmail(data.email);
+            localStorage.setItem('email',data.email);
             Navigate("/welcomepage");
 
         }).catch((err)=>{

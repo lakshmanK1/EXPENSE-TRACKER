@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import ExpenseData from '../Expense/ExpenseData';
 import ExpenseForm from '../Expense/ExpenseForm';
@@ -11,7 +11,7 @@ function WelcomePage() {
 
   // related to ExpenseForm
   const [isForm, setIsForm] = useState(false);
-  const [showList, setShowList] = useState(false);
+
 
   const AuthCntx = useContext(AuthenticationContext);
 
@@ -45,12 +45,13 @@ function WelcomePage() {
   }
 
   const showForm =()=>{
-    setIsForm(true);
+    setIsForm(true)
   }
 
   const hideForm=()=>{
     setIsForm(false);
   }
+
 
   return (
     <Container>
@@ -70,7 +71,7 @@ function WelcomePage() {
           <AddExpenseButton onClick={showForm}>ADD EXPENSE</AddExpenseButton>
         </ExpenseBTNdiv>}
 
-        {isForm && <ExpenseData hide={hideForm}/>}
+        {isForm && <ExpenseForm onHide={hideForm}/>}
 
     </Container>
   )

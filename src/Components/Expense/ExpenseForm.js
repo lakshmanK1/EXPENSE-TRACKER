@@ -1,5 +1,7 @@
-import React, { useRef } from 'react'
+import axios from 'axios';
+import React, { useEffect, useRef, useState } from 'react'
 import {MdOutlineCancel} from 'react-icons/md'
+import ExpenseList from './ExpenseList';
 
 
 //styled components
@@ -11,7 +13,10 @@ function ExpenseForm(props) {
     const userInputDescrip = useRef();
     const userInputSelect = useRef();
 
+    const [expenses, setExpenses] = useState([]);
 
+
+    const enteredEmail = localStorage.getItem('email').replace('@','').replace('.','');
 
     const handleFormSubmit = (event) => {
         event.preventDefault();
@@ -21,21 +26,34 @@ function ExpenseForm(props) {
         const enteredSelect = userInputSelect.current.value;
 
         const userData = {
-            id: Math.random().toString() ,
-            money:enteredMoney,
+            category:enteredSelect,
             description:enteredDescrip,
-            select:enteredSelect
+            amount:enteredMoney   
         }
 
-        console.log(userData)
-        props.details(userData);
-
+        async function addHandler(NewMovieObj) {
+            const response = await fetch(
+              `https://expense-tracker-362e0-default-rtdb.firebaseio.com/${enteredEmail}.json`,
+              {
+                method: "POST",
+                body: JSON.stringify(NewMovieObj),
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+            const data = await response.json();
+            console.log(data);
+          }
+        addHandler(userData);
     } 
+
+    
   return (
     <Container>
         <Expenseform onSubmit={handleFormSubmit}>
         <CancelIcon><MdOutlineCancel style={{width:'30px', height:'30px', color:'white', backgroundColor:'red',borderRadius:'5px'}}
-        onClick={props.HidingForm}
+        onClick={props.onHide}
         /></CancelIcon><br/>
 
             <ExpenseLabel htmlFor='money'>Money spent:</ExpenseLabel>
@@ -50,10 +68,11 @@ function ExpenseForm(props) {
                 <Expenseoption>Groceries</Expenseoption>
                 <Expenseoption>clothes</Expenseoption>
                 <Expenseoption>Petrol/Diesel</Expenseoption>
-                <Expenseoption>Charity</Expenseoption>
+                <Expenseoption>Furniture</Expenseoption>
             </ExpenseSelect><br/>
             <ExpenseBTN  type='submit'>ADD</ExpenseBTN>
         </Expenseform>
+        <ExpenseList/>
     </Container>
   )
 }
