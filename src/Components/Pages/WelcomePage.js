@@ -12,7 +12,6 @@ function WelcomePage() {
   // related to ExpenseForm
   const [isForm, setIsForm] = useState(false);
 
-
   const AuthCntx = useContext(AuthenticationContext);
 
   const VerifyEmailId = () => {
@@ -53,6 +52,10 @@ function WelcomePage() {
   }
 
 
+  const editData = () => {
+    setEditExpense(true);
+  }
+
   return (
     <Container>
       <NavBar/>
@@ -72,6 +75,7 @@ function WelcomePage() {
         </ExpenseBTNdiv>}
 
         {isForm && <ExpenseForm onHide={hideForm}/>}
+        <ExpenseList/>
 
     </Container>
   )

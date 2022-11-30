@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react'
 import {MdOutlineCancel} from 'react-icons/md'
+import Modal from '../Modal/Modal';
 import ExpenseList from './ExpenseList';
 
 
@@ -50,30 +51,31 @@ function ExpenseForm(props) {
 
     
   return (
+    <Modal>
     <Container>
-        <Expenseform onSubmit={handleFormSubmit}>
-        <CancelIcon><MdOutlineCancel style={{width:'30px', height:'30px', color:'white', backgroundColor:'red',borderRadius:'5px'}}
-        onClick={props.onHide}
-        /></CancelIcon><br/>
+      <Expenseform onSubmit={handleFormSubmit}>
+      <CancelIcon><MdOutlineCancel style={{width:'30px', height:'30px', color:'white', backgroundColor:'red',borderRadius:'5px'}}
+      onClick={props.onHide}
+      /></CancelIcon><br/>
 
-            <ExpenseLabel htmlFor='money'>Money spent:</ExpenseLabel>
-            <ExpenseInput type='number' id='money' ref={userInputMoney} required/>
+          <ExpenseLabel htmlFor='money'>Money spent:</ExpenseLabel>
+          <ExpenseInput type='number' id='money' ref={userInputMoney} required/>
 
-            <ExpenseLabel htmlFor='descrip'>Description:</ExpenseLabel>
-            <ExpenseInput type='text' id='descrip' ref={userInputDescrip} required/><br/>
+          <ExpenseLabel htmlFor='descrip'>Description:</ExpenseLabel>
+          <ExpenseInput type='text' id='descrip' ref={userInputDescrip} required/><br/>
 
-            <ExpenseLabel htmlFor='select' >Category:</ExpenseLabel>
-            <ExpenseSelect ref={userInputSelect} id='select' required>
-                <Expenseoption>Food</Expenseoption>
-                <Expenseoption>Groceries</Expenseoption>
-                <Expenseoption>clothes</Expenseoption>
-                <Expenseoption>Petrol/Diesel</Expenseoption>
-                <Expenseoption>Furniture</Expenseoption>
-            </ExpenseSelect><br/>
-            <ExpenseBTN  type='submit'>ADD</ExpenseBTN>
-        </Expenseform>
-        <ExpenseList/>
+          <ExpenseLabel htmlFor='select' >Category:</ExpenseLabel>
+          <ExpenseSelect ref={userInputSelect} id='select' required>
+              <Expenseoption>Food</Expenseoption>
+              <Expenseoption>Groceries</Expenseoption>
+              <Expenseoption>clothes</Expenseoption>
+              <Expenseoption>Petrol/Diesel</Expenseoption>
+              <Expenseoption>Furniture</Expenseoption>
+          </ExpenseSelect><br/>
+          <ExpenseBTN  type='submit'>ADD</ExpenseBTN>
+      </Expenseform>
     </Container>
+    </Modal>
   )
 }
 
