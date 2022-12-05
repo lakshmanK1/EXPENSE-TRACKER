@@ -1,81 +1,100 @@
-import axios from 'axios';
-import React, { useEffect, useRef, useState } from 'react'
+
+import React, { useEffect, useRef, useState, useCallback } from 'react'
 import {MdOutlineCancel} from 'react-icons/md'
-import Modal from '../Modal/Modal';
-import ExpenseList from './ExpenseList';
+import { ExpenseActions } from '../Store/Redux/Expense-Slice'
+import {useDispatch, useSelector} from 'react-redux'
+import { Link, useParams, useNavigate } from 'react-router-dom'
+import {toast} from 'react-toastify'
 
 
 //styled components
 import { Expenseform, Container, ExpenseLabel, ExpenseInput, ExpenseBTN, ExpenseSelect, Expenseoption, CancelIcon } from './ExpenseStyledCMPS'
 
+
+const initialData = {
+  description:'',
+  price:'',
+  category:''
+}
+
 function ExpenseForm(props) {
 
-    const userInputMoney = useRef();
-    const userInputDescrip = useRef();
-    const userInputSelect = useRef();
+    const [state, setState] = useState(initialData);
 
-    const [expenses, setExpenses] = useState([]);
+    const {singleExpense} = useSelector(state => state.Expense);
 
+    const dispatch = useDispatch();
 
-    const enteredEmail = localStorage.getItem('email').replace('@','').replace('.','');
+    const {id} = useParams();
 
+    const { category, description, price} = state;
+
+    const navigate = useNavigate();
+
+    useEffect(()=>{
+      dispatch(ExpenseActions.getExpense(id));
+      setState({...singleExpense});
+    },[id, singleExpense]);
+  
     const handleFormSubmit = (event) => {
         event.preventDefault();
-
-        const enteredMoney = userInputMoney.current.value;
-        const enteredDescrip = userInputDescrip.current.value;
-        const enteredSelect = userInputSelect.current.value;
-
-        const userData = {
-            category:enteredSelect,
-            description:enteredDescrip,
-            amount:enteredMoney   
+        if(!category || !description || !price){
+          window.alert("please fill all input fields..");
+        }else if(!id){
+          dispatch(ExpenseActions.addExpense(state));
+          toast.success(`Successfully added expense details...`,{
+            position:"top-center",
+          });
+        } else if(id){
+          dispatch(ExpenseActions.updateExpense(state));
+          toast(`Updated expense details...`,{
+            position:"top-center",
+          });
         }
+        setTimeout(()=>{
+          navigate('/welcomepage');
+        },[1000]);
+    }
 
-        async function addHandler(NewMovieObj) {
-            const response = await fetch(
-              `https://expense-tracker-362e0-default-rtdb.firebaseio.com/${enteredEmail}.json`,
-              {
-                method: "POST",
-                body: JSON.stringify(NewMovieObj),
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              }
-            );
-            const data = await response.json();
-            console.log(data);
-          }
-        addHandler(userData);
-    } 
+  const handleInputChange = (e) => {
+    const {name , value} = e.target;
+    setState({...state, [name]:value});
+  }
 
+  const handleDroupdownChange  = (e) => {
+    const {name, value} = e.target;
+    setState({...state, [name]:value});
+  }
     
   return (
-    <Modal>
     <Container>
+    {/* <Modal> */}
       <Expenseform onSubmit={handleFormSubmit}>
-      <CancelIcon><MdOutlineCancel style={{width:'30px', height:'30px', color:'white', backgroundColor:'red',borderRadius:'5px'}}
-      onClick={props.onHide}
-      /></CancelIcon><br/>
+        <Link to='/welcomepage'>
+        <CancelIcon><MdOutlineCancel style={{width:'30px', height:'30px', color:'white', backgroundColor:'red',borderRadius:'5px'}}
+      /></CancelIcon>
+        </Link>
+     <br/>
 
-          <ExpenseLabel htmlFor='money'>Money spent:</ExpenseLabel>
-          <ExpenseInput type='number' id='money' ref={userInputMoney} required/>
+          <ExpenseLabel htmlFor='price'>Money spent:</ExpenseLabel>
+          <ExpenseInput type='number' name='price' id='price' value={price || ''} onChange={handleInputChange} />
 
-          <ExpenseLabel htmlFor='descrip'>Description:</ExpenseLabel>
-          <ExpenseInput type='text' id='descrip' ref={userInputDescrip} required/><br/>
+          <ExpenseLabel htmlFor='description'>Description:</ExpenseLabel>
+          <ExpenseInput type='text' id='description' name='description' value={description || ''} onChange={handleInputChange} /><br/>
 
-          <ExpenseLabel htmlFor='select' >Category:</ExpenseLabel>
-          <ExpenseSelect ref={userInputSelect} id='select' required>
+          <ExpenseLabel htmlFor='category' >Category:</ExpenseLabel>
+          <ExpenseSelect id='select' name='category' value={category || ''} onChange={handleDroupdownChange} >
+              <Expenseoption>-select an Category-</Expenseoption>
               <Expenseoption>Food</Expenseoption>
               <Expenseoption>Groceries</Expenseoption>
               <Expenseoption>clothes</Expenseoption>
-              <Expenseoption>Petrol/Diesel</Expenseoption>
+              <Expenseoption>Bills</Expenseoption>
               <Expenseoption>Furniture</Expenseoption>
           </ExpenseSelect><br/>
-          <ExpenseBTN  type='submit'>ADD</ExpenseBTN>
+          <ExpenseBTN  type='submit'>{!id ? 'ADD' : 'UPDATE'}</ExpenseBTN>
       </Expenseform>
+    {/* </Modal> */}
     </Container>
-    </Modal>
   )
 }
 

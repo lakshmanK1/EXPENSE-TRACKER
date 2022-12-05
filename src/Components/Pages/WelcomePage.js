@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import ExpenseData from '../Expense/ExpenseData';
 import ExpenseForm from '../Expense/ExpenseForm';
 import ExpenseList from '../Expense/ExpenseList';
 import NavBar from '../HeaderNavs/NavBar';
@@ -9,8 +8,7 @@ import { Container, HeaderText, MessageDiv, Span, Text, EmailVerifyBTN, MainHead
 
 function WelcomePage() {
 
-  // related to ExpenseForm
-  const [isForm, setIsForm] = useState(false);
+
 
   const AuthCntx = useContext(AuthenticationContext);
 
@@ -43,18 +41,7 @@ function WelcomePage() {
   })
   }
 
-  const showForm =()=>{
-    setIsForm(true)
-  }
 
-  const hideForm=()=>{
-    setIsForm(false);
-  }
-
-
-  const editData = () => {
-    setEditExpense(true);
-  }
 
   return (
     <Container>
@@ -69,14 +56,14 @@ function WelcomePage() {
              
         <EmailVerifyBTN onClick={VerifyEmailId}>Verify Email</EmailVerifyBTN><br/>
 
-        {!isForm && 
-          <ExpenseBTNdiv>
-          <AddExpenseButton onClick={showForm}>ADD EXPENSE</AddExpenseButton>
-        </ExpenseBTNdiv>}
 
-        {isForm && <ExpenseForm onHide={hideForm}/>}
+      <ExpenseBTNdiv>
+        <Link to='/AddExpenseDetails'>
+          <AddExpenseButton>ADD EXPENSE</AddExpenseButton>
+        </Link>
+      </ExpenseBTNdiv>  
+
         <ExpenseList/>
-
     </Container>
   )
 }
