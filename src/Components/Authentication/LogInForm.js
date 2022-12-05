@@ -1,6 +1,7 @@
-import React,{useContext, useRef, useState} from 'react'
+import React,{ useRef} from 'react'
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthenticationContext } from '../Store/AuthContext';
+import { AuthActions } from '../Store/Redux/Auth-Slice';
+import {useDispatch} from 'react-redux'
 
 // Styled components
 import {FormContainer, Form, Label, Input, Button, ToggleButton,ForgotButton } from './AuthStyledComponents'
@@ -11,8 +12,7 @@ function LogInForm() {
 
     const userInputEmail = useRef();
     const userInputPassword = useRef();
-
-    const AuthCntx = useContext(AuthenticationContext);
+    const dispatch = useDispatch();
 
     const Navigate = useNavigate();
 
@@ -49,8 +49,9 @@ function LogInForm() {
             }
         }).then((data)=>{
             console.log(data);
-            AuthCntx.LogIn(data.idToken);
-            localStorage.setItem('email',data.email);
+            // AuthCntx.LogIn(data.idToken);
+            dispatch(AuthActions.logIn(data.idToken));
+            localStorage.setItem('Email',data.email);
             Navigate("/welcomepage");
 
         }).catch((err)=>{

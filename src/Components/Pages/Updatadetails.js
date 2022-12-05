@@ -1,7 +1,6 @@
-import React, { useContext, useRef, useState, useEffect } from "react";
+import React, {  useRef, useState, useEffect } from "react";
 import { BsPersonCircle, BsGlobe2 } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import { AuthenticationContext } from "../Store/AuthContext";
 
 // styled cmps
 import {
@@ -21,7 +20,6 @@ function Updatadetails() {
   const [displayName, setDisplayName] = useState('');
   const [urlLink, setUrlLink] = useState('');
 
-  const AuthCntx = useContext(AuthenticationContext);
 
   const handleForm = (e) => {
     e.preventDefault();
@@ -34,7 +32,7 @@ function Updatadetails() {
     fetch(url, {
       method: "POST",
       body: JSON.stringify({
-        idToken: localStorage.getItem("token"),
+        idToken: localStorage.getItem("Token"),
         displayName: enteredName,
         photoUrl: enteredUrl,
         returnSecureToken: true,
@@ -63,7 +61,7 @@ function Updatadetails() {
           {
             method: "POST",
             body: JSON.stringify({
-              idToken: localStorage.getItem("token"),
+              idToken: localStorage.getItem("Token"),
             }),
             headers: {
               "Content-Type": "application/json",
@@ -78,8 +76,6 @@ function Updatadetails() {
         console.log(err);
       });
 
-    // var enteredName = UserInputName.current.value='';
-    // var enteredUrl = UserInputUrl.current.value='';
   };
 
   async function getBackData() {
@@ -89,7 +85,7 @@ function Updatadetails() {
       {
         method: "POST",
         body: JSON.stringify({
-        idToken: localStorage.getItem("token"),
+        idToken: localStorage.getItem("Token"),
         }),
       }
     );

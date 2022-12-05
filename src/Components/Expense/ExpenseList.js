@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React from 'react'
 import {BiCategory} from 'react-icons/bi'
 import {BsChatSquareText} from 'react-icons/bs'
 import {TbCurrencyRupee} from 'react-icons/tb'

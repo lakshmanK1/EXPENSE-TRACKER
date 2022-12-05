@@ -1,23 +1,20 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
-import ExpenseForm from '../Expense/ExpenseForm';
 import ExpenseList from '../Expense/ExpenseList';
 import NavBar from '../HeaderNavs/NavBar';
-import { AuthenticationContext } from '../Store/AuthContext'
+import {useSelector} from 'react-redux'
 import { Container, HeaderText, MessageDiv, Span, Text, EmailVerifyBTN, MainHead, AddExpenseButton, ExpenseBTNdiv } from './PageStyledComponents'
 
 function WelcomePage() {
 
-
-
-  const AuthCntx = useContext(AuthenticationContext);
+  const {token} = useSelector(state => state.Auth);
 
   const VerifyEmailId = () => {
     fetch('https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyB8PZ7dyMV1RlPAiConsdPAQszUAEsecfI',{
       method:"POST",
       body:JSON.stringify({
         requestType:"VERIFY_EMAIL",
-        idToken:AuthCntx.token
+        idToken:token
       }),
       headers:{
         'Content-Type':'application/json'

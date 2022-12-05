@@ -1,18 +1,22 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import {HiOutlineLink} from 'react-icons/hi'
 import { Link } from 'react-router-dom';
-import { AuthenticationContext } from '../Store/AuthContext'
+import {useSelector, useDispatch} from 'react-redux'
+import { AuthActions } from '../Store/Redux/Auth-Slice';
 
 
 // styled components
 import { NavContainer, Span, Icon, IconDiv, AuthDiv } from './NavStylesComponents'
 
 function NavBar() {
-  const AuthCntx = useContext(AuthenticationContext);
+
+  const {isLoggedIn} = useSelector(state => state.Auth);
+  const dispatch = useDispatch();
 
   const logoutHandler = () => {
-    AuthCntx.LogOut();
+    dispatch(AuthActions.logOut());
   }
+
   return (
     <NavContainer>
       <IconDiv>
@@ -23,8 +27,8 @@ function NavBar() {
         <Span>PRODUCTS</Span>
         <Span>ABOUT US</Span>
         <AuthDiv>
-          {!AuthCntx.isLoggedIn && <Link to='/loginpage' style={{textDecoration:'none'}}><Span>LOGIN</Span></Link>}
-          {AuthCntx.isLoggedIn && <Link to='/' style={{textDecoration:'none'}}><Span onClick={logoutHandler}>LOGOUT</Span></Link>}
+          {!isLoggedIn && <Link to='/loginpage' style={{textDecoration:'none'}}><Span>LOGIN</Span></Link>}
+          {isLoggedIn && <Link to='/' style={{textDecoration:'none'}}><Span onClick={logoutHandler}>LOGOUT</Span></Link>}
         </AuthDiv>
     </NavContainer>
   )
