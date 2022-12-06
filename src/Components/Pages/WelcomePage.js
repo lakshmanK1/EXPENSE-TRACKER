@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import ExpenseList from '../Expense/ExpenseList';
 import NavBar from '../HeaderNavs/NavBar';
 import {useSelector} from 'react-redux'
+import DarkThemeProvider from '../HeaderNavs/DarkThemeToggle';
 import { Container, HeaderText, MessageDiv, Span, Text, EmailVerifyBTN, MainHead, AddExpenseButton, ExpenseBTNdiv } from './PageStyledComponents'
 
 function WelcomePage() {

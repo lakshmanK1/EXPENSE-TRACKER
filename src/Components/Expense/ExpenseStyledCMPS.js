@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
-export const Expenseform = styled.form`margin: 3rem auto; width:60%;
+
+
+ export const Expenseform = styled.form`margin: 3rem auto; width:60%;
 border-radius: 6px; background-color: white; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 padding: 1rem; text-align: center;`;
 export const Container = styled.div`::-webkit-scrollbar {

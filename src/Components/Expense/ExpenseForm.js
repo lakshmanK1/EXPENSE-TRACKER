@@ -5,6 +5,11 @@ import { ExpenseActions } from '../Store/Redux/Expense-Slice'
 import {useDispatch, useSelector} from 'react-redux'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import {toast} from 'react-toastify'
+import { ThemeActions } from '../Store/Redux/Theme-Slice'
+import classes from "./Theme.module.css";
+import {BsSun} from 'react-icons/bs'
+import {BsMoonStarsFill} from 'react-icons/bs'
+
 
 
 //styled components
@@ -17,11 +22,13 @@ const initialData = {
   category:''
 }
 
-function ExpenseForm(props) {
+function ExpenseForm() {
 
     const [state, setState] = useState(initialData);
 
     const {singleExpense} = useSelector(state => state.Expense);
+
+    const changeTheme = useSelector(state => state.Theme.theme);
 
     const dispatch = useDispatch();
 
@@ -65,11 +72,25 @@ function ExpenseForm(props) {
     const {name, value} = e.target;
     setState({...state, [name]:value});
   }
+
+  const themeChangeHandler = () => {
+    dispatch(ThemeActions.Theme());
+  };
     
   return (
+    <div className={!changeTheme ? classes.auth : classes.darkmode}>
+      <div className={classes.theme}>
+        {!changeTheme && (
+          <BsMoonStarsFill style={{ width:'30px', height:'30px',color:'black'}} onClick={themeChangeHandler}/>
+        )}
+        {changeTheme && (
+          <BsSun style={{ width:'30px', height:'30px',color:'yellow'}} onClick={themeChangeHandler}/>
+        )}
+      </div>
     <Container>
     {/* <Modal> */}
-      <Expenseform onSubmit={handleFormSubmit}>
+      <Expenseform onSubmit={handleFormSubmit}
+      style={changeTheme ? {backgroundColor:'black'} : {backgroundColor:'white'} }>
         <Link to='/welcomepage'>
         <CancelIcon><MdOutlineCancel style={{width:'30px', height:'30px', color:'white', backgroundColor:'red',borderRadius:'5px'}}
       /></CancelIcon>
@@ -95,6 +116,7 @@ function ExpenseForm(props) {
       </Expenseform>
     {/* </Modal> */}
     </Container>
+    </div>
   )
 }
 
