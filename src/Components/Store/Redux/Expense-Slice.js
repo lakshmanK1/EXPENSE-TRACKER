@@ -6,39 +6,15 @@ const expenseInitialState = [
       id: 1,
       category: "Clothes",
       description: "Shirt",
-      price: '300'
-    },
-    {
-      id: 2,
-      category: "Food",
-      description: "Biryani",
-      price: '150'
-    },
-    {
-      id: 3,
-      category: "Furniture",
-      description: "dinning table set",
-      price: '4000'
-    },
-    {
-      id: 4,
-      category: "Bills",
-      description: "Electricity bill",
-      price: '650'
-    },
-    
-    {
-      id: 5,
-      category: "Grocies",
-      description: "rice and daal",
-      price: '1500'
-    },
+      price: '0'
+    }
   ];
 
   const ExpenseSlice = createSlice({
     name:'expense',
     initialState:{
         expenseInitialState,
+        totalExpenseAmount : 0,
         singleExpense:{
             category:'',
             description:'',
@@ -49,6 +25,7 @@ const expenseInitialState = [
         replaceExpense : (state, action) => {
             state.expenseInitialState = action.payload.expenseInitialState;
             state.singleExpense = action.payload.singleExpense;
+            state.totalExpenseAmount = action.payload.totalExpenseAmount;
         },
         getExpense : (state, action)=>{
             state.singleExpense = state.expenseInitialState.find((item) => item.id == action.payload);
@@ -56,17 +33,21 @@ const expenseInitialState = [
 
         addExpense : (state, action)=>{
         const newData = {...action.payload, id:uuidv4()};
-        state.expenseInitialState = [newData, ...state.expenseInitialState]
+        state.expenseInitialState = [newData, ...state.expenseInitialState];
+        console.log(newData.price);
+        state.totalExpenseAmount = state.totalExpenseAmount + Number(newData.price);
         },
 
         deleteExpense : (state, action) => {
-            state.expenseInitialState = state.expenseInitialState.filter((item) => item.id !== action.payload);
+            state.expenseInitialState = state.expenseInitialState.filter((item) => item.id !== action.payload.expenseInitialState);
+            state.totalExpenseAmount = action.payload.totalExpenseAmount;
         },
 
         updateExpense : (state, action) => {
             state.expenseInitialState = state.expenseInitialState.map((item) => (
-                item.id === action.payload.id ? action.payload : item
+            item.id === action.payload.expenseInitialState.id ? action.payload.expenseInitialState : item
             ));
+            state.totalExpenseAmount =state.totalExpenseAmount + action.payload.totalExpenseAmount;
         }
     }
   });

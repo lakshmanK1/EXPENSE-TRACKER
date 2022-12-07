@@ -53,7 +53,8 @@ function ExpenseForm() {
             position:"top-center",
           });
         } else if(id){
-          dispatch(ExpenseActions.updateExpense(state));
+          console.log(typeof state.price);
+          dispatch(ExpenseActions.updateExpense({expenseInitialState:state,totalExpenseAmount:Number(state.price)}));
           toast(`Updated expense details...`,{
             position:"top-center",
           });

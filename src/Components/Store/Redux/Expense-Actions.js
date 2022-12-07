@@ -1,11 +1,13 @@
 
 import { ExpenseActions } from "./Expense-Slice";
 
+let enteredEmail = localStorage.getItem('Email').replace('@','').replace('.','');
+
 
 export const fetchDataHandler = () => {
     return async(dispatch)=>{
         const getData = async()=>{
-            let response = await fetch('https://expense-tracker-362e0-default-rtdb.firebaseio.com/ExpenseDetails.json');
+            let response = await fetch(`https://expense-tracker-362e0-default-rtdb.firebaseio.com/ExpenseDetails/${enteredEmail}.json`);
 
             if(!response.ok){
                 throw new Error('failed fetching data');
@@ -27,7 +29,7 @@ export const fetchDataHandler = () => {
 export const sendDataHandler = (ExpenseData) => {
     return async()=>{
         const sendExpense = async()=>{
-            let response = await fetch('https://expense-tracker-362e0-default-rtdb.firebaseio.com/ExpenseDetails.json',{
+            let response = await fetch(`https://expense-tracker-362e0-default-rtdb.firebaseio.com/ExpenseDetails/${enteredEmail}.json`,{
                 method:"PUT",
                 body:JSON.stringify(ExpenseData)
             });
@@ -41,4 +43,20 @@ export const sendDataHandler = (ExpenseData) => {
             console.log(err);
         }
     }
-} 
+}
+
+export const removeExpenseDetails = (expenseId) => {
+    return async() => {
+        const Delete = async() => {
+            let response = await fetch(`https://expense-tracker-362e0-default-rtdb.firebaseio.com/ExpenseDetails/${enteredEmail}/${expenseId}.json`,{
+                method:"DELETE"
+            });
+            
+        }
+        try{
+            await Delete();
+        }catch(err){
+            console.log(err);
+        }
+    }
+}
